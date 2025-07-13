@@ -6,6 +6,15 @@
     <title>MyTube</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/mytube.png" type="image/x-icon" />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- DaisyUI CDN -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css"
@@ -13,14 +22,21 @@
       type="text/css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      .font-inter {
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+      }
+    </style>
   </head>
-  <body>
-    <header>
+  <body class="font-inter">
+    <header class="w-11/12 mx-auto">
       <nav
-        class="w-11/12 mx-auto py-3 md:py-1 lg:py-1 flex justify-between items-center border-b"
+        class="py-3 md:py-1 lg:py-1 flex justify-between items-center border-b"
       >
-        <div class="logo w-[160px]">
-          <img class="" src="images/logo.png" alt="" />
+        <div class="logo w-[130px]">
+          <img src="images/logo.png" alt="" />
         </div>
         <div class="search">
           <label class="input input-bordered flex items-center gap-2">
@@ -43,6 +59,7 @@
           <button class="btn">SORT</button>
         </div>
       </nav>
+      <div id="categories" class="py-3 flex gap-5 justify-center"></div>
     </header>
     <main></main>
     <footer></footer>

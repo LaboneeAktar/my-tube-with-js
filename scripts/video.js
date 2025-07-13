@@ -8,8 +8,14 @@ const loadVideoCategories = () => {
 };
 
 // Display video Data
-const displayVideoCategories = (data) => {
-  console.log(data);
+const displayVideoCategories = (categories) => {
+  const categoryContainer = document.getElementById("categories");
+  for (const category of categories) {
+    const button = document.createElement("button");
+    button.classList = "btn";
+    button.innerText = category.category;
+    categoryContainer.appendChild(button);
+  }
 };
 
 loadVideoCategories();
