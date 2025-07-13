@@ -57,6 +57,15 @@ const loadCategoryVideos = (id) => {
     .catch((error) => console.error("Something Error", error));
 };
 
+// Load video details
+const loadVideoDetails = async (videoId) => {
+  // console.log(videoId);
+  const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  displayVideoDetails(data.video);
+};
+
 // Display Categories
 const displayVideoCategories = (categories) => {
   const categoryContainer = document.getElementById("categories");
@@ -97,7 +106,9 @@ const displayVideos = (videos) => {
       "card card-compact transition duration-300 ease-in-out transform hover:scale-90 hover:opacity-75";
 
     card.innerHTML = `
-    <figure class="h-[200px] relative">
+    <figure class="h-[200px] relative" onclick="loadVideoDetails('${
+      video.video_id
+    }')">
       <img class="h-full w-full object-cover cursor-pointer"
         src=${video.thumbnail}
         alt="video_thumbnail" />
@@ -134,6 +145,18 @@ const displayVideos = (videos) => {
 
     videoContainer.appendChild(card);
   }
+};
+
+// Display video Details
+const displayVideoDetails = (video) => {
+  console.log(video);
+  const detailContianer = document.getElementById("modal-content");
+  detailContianer.innerHTML = `
+  <img src="${video.thumbnail}" />
+  <p class="text-justify pt-2"> ${video.description}</p>
+   `;
+
+  document.getElementById("customModal").showModal();
 };
 
 loadVideoCategories();
