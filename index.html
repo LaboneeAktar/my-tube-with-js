@@ -65,10 +65,14 @@
           </label>
         </div>
         <div class="sort">
-          <button class="btn">SORT</button>
+          <button id="sort-btn" class="btn">SORT</button>
         </div>
       </nav>
-      <div id="categories" class="py-3 flex gap-5 justify-center"></div>
+      <div id="categories" class="py-3 flex gap-5 justify-center lg:ml-12">
+        <button id="all-btn" onclick="loadVideos()" class="btn category-btn">
+          All
+        </button>
+      </div>
     </header>
     <main>
       <section
@@ -97,8 +101,6 @@
         </div>
       </dialog>
     </section>
-
-    <footer></footer>
 
     <script src="scripts/video.js"></script>
   </body>

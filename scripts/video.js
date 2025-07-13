@@ -42,7 +42,12 @@ const loadVideos = (searchText = "") => {
     `https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`
   )
     .then((res) => res.json())
-    .then((data) => displayVideos(data.videos))
+    .then((data) => {
+      removeActiveClass();
+      const activeBtn = document.getElementById("all-btn");
+      activeBtn.classList.add("active");
+      displayVideos(data.videos);
+    })
     .catch((error) => console.error("Something Error", error));
 };
 
