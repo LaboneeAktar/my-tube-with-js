@@ -93,10 +93,12 @@ const displayVideos = (videos) => {
   for (const video of videos) {
     // console.log(video);
     const card = document.createElement("div");
-    card.classList = "card card-compact";
+    card.classList =
+      "card card-compact transition duration-300 ease-in-out transform hover:scale-90 hover:opacity-75";
+
     card.innerHTML = `
     <figure class="h-[200px] relative">
-      <img class="h-full w-full object-cover"
+      <img class="h-full w-full object-cover cursor-pointer"
         src=${video.thumbnail}
         alt="video_thumbnail" />
         ${
@@ -116,18 +118,20 @@ const displayVideos = (videos) => {
       </div>
       <div>
         <h2 class="font-bold text-lg">${video.title}</h2>
-        <div class="flex items-center">
-          <p class="text-gray-400 text-sm">${video.authors[0].profile_name}</p>
-            ${
-              video.authors[0].verified == true
-                ? `<img class="w-5 h-5" src="https://img.icons8.com/?size=96&id=98A4yZTt9abw&format=png" alt=""/>`
-                : ``
-            }
-
-        </div>
+        <div class="flex items-center justify-between">
+          <p class="text-gray-400 text-sm flex gap-1">${
+            video.authors[0].profile_name
+          } ${
+      video.authors[0].verified == true
+        ? `<img class="w-5 h-5" src="https://img.icons8.com/?size=96&id=98A4yZTt9abw&format=png" alt=""/>`
+        : ``
+    }</p>
+    </div>
+    <p class="text-sm text-gray-400">${video.others.views} views</p>
       </div>
     </div>
    `;
+
     videoContainer.appendChild(card);
   }
 };
