@@ -1,3 +1,33 @@
+// Get time - hour, minute, second
+const getTimeString = (time) => {
+  const day = parseInt(time / 86400);
+  let remainingMinute = time % 86400;
+  const hour = parseInt(remainingMinute / 3600);
+  let remainingSecond = remainingMinute % 3600;
+  const minute = parseInt(remainingSecond / 60);
+  remainingSecond = minute % 60;
+
+  if (day != 0 && hour != 0 && minute != 0 && remainingSecond != 0) {
+    return `${day} days ${hour} hrs ${minute} mins ${remainingSecond} s ago`;
+  } else if (day == 0 && hour != 0 && minute != 0 && remainingSecond != 0) {
+    return `${hour} hrs ${minute} mins ${remainingSecond} s ago`;
+  } else if (day == 0 && hour == 0 && minute != 0 && remainingSecond != 0) {
+    return `${minute} mins ${remainingSecond} s ago`;
+  } else if (day == 0 && hour == 0 && minute == 0 && remainingSecond != 0) {
+    return `${remainingSecond} s ago`;
+  } else {
+    return `${remainingMinute}`;
+  }
+};
+
+// Remove Active Class
+const removeActiveClass = () => {
+  const buttons = document.getElementsByClassName("category-btn");
+  for (btn of buttons) {
+    btn.classList.remove("active");
+  }
+};
+
 // Fetch Data and show categories
 const loadVideoCategories = () => {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
@@ -14,22 +44,54 @@ const loadVideos = () => {
     .catch((error) => console.error("Something Error", error));
 };
 
+// Load Category videos
+const loadCategoryVideos = (id) => {
+  fetch(` https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      removeActiveClass();
+      const activeBtn = document.getElementById(`btn-${id}`);
+      activeBtn.classList.add("active");
+      displayVideos(data.category);
+    })
+    .catch((error) => console.error("Something Error", error));
+};
+
 // Display Categories
 const displayVideoCategories = (categories) => {
   const categoryContainer = document.getElementById("categories");
   for (const category of categories) {
-    const button = document.createElement("button");
-    button.classList = "btn";
-    button.innerText = category.category;
-    categoryContainer.appendChild(button);
+    const buttonContainer = document.createElement("div");
+    buttonContainer.innerHTML = `
+     <button id="btn-${category.category_id}" class="btn category-btn" onclick= "loadCategoryVideos(${category.category_id})">
+      ${category.category}
+     </button>
+    `;
+    categoryContainer.appendChild(buttonContainer);
   }
 };
 
 // Display Videos
 const displayVideos = (videos) => {
   const videoContainer = document.getElementById("videos");
+  videoContainer.innerHTML = "";
+
+  if (videos.length == 0) {
+    videoContainer.innerHTML = `
+     <div
+        class="py-20 col-span-full flex flex-col justify-center items-center text-center"
+      >
+        <img class="w-[120px]" src="./images/Icon.png" alt="" />
+        <h2 class="text-2xl font-bold">
+          Oops!! Sorry, There is no content here
+        </h2>
+      </div>
+    `;
+    return;
+  }
+
   for (const video of videos) {
-    console.log(video);
+    // console.log(video);
     const card = document.createElement("div");
     card.classList = "card card-compact";
     card.innerHTML = `
@@ -67,28 +129,6 @@ const displayVideos = (videos) => {
     </div>
    `;
     videoContainer.appendChild(card);
-  }
-};
-
-// Get time - hour, minute, second
-const getTimeString = (time) => {
-  const day = parseInt(time / 86400);
-  let remainingMinute = time % 86400;
-  const hour = parseInt(remainingMinute / 3600);
-  let remainingSecond = remainingMinute % 3600;
-  const minute = parseInt(remainingSecond / 60);
-  remainingSecond = minute % 60;
-
-  if (day != 0 && hour != 0 && minute != 0 && remainingSecond != 0) {
-    return `${day} days ${hour} hrs ${minute} mins ${remainingSecond} s ago`;
-  } else if (day == 0 && hour != 0 && minute != 0 && remainingSecond != 0) {
-    return `${hour} hrs ${minute} mins ${remainingSecond} s ago`;
-  } else if (day == 0 && hour == 0 && minute != 0 && remainingSecond != 0) {
-    return `${minute} mins ${remainingSecond} s ago`;
-  } else if (day == 0 && hour == 0 && minute == 0 && remainingSecond != 0) {
-    return `${remainingSecond} s ago`;
-  } else {
-    return `${remainingMinute}`;
   }
 };
 
